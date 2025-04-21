@@ -1,30 +1,32 @@
 package work;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-public record FinancialAccounting(String description, BigDecimal cost, Enum type, LocalDate date) {
+public record FinancialAccounting(String description, BigDecimal cost, String type, LocalDate date) {
 //    private String description;
-//    private BigDecimal cost;
+//    private static BigDecimal cost;
 //    private Enum type;
 //    private LocalDate date;
 
-    public FinancialAccounting(String description, BigDecimal cost, Enum type, LocalDate date) {
-        this.description = description;
-        this.cost = cost;
-        this.type = type;
-        this.date = date;
+    static FinancialAccounting[] arrFinancialAccounting = new FinancialAccounting[3];
+
+    public FinancialAccounting {
     }
 
-
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static String header = String.format("%-15s %-15s %-15s %-15s", "Дата", "Сумма", "Тип", "Описание");
 
+
+    //    static String header = String.format("%-15s %-15s %-15s %-15s", "Дата", "Сумма", "Тип", "Описание");
+
+    static DecimalFormat df = new DecimalFormat("#,###.00", DecimalFormatSymbols.getInstance(Locale.US));
     @Override
     public String toString() {
-        return header + "\n--------------------------------------------------------------------------------\n"
-                + String.format("%-15s %-15s %-15s %-15s",
-                date.format(formatter), cost, type.toString(), description());
+        return String.format("%-15s %-15s %-15s %-15s", date.format(formatter), df.format(cost), type, description());
     }
 }
