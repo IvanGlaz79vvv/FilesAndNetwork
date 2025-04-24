@@ -20,9 +20,6 @@ public class Main {
 
         UserMenu userMenu = new UserMenu();
         userMenu.inFromUser();
-
-//        userMenu.getReport();
-
     }
 }
 

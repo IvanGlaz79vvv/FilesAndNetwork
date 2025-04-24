@@ -17,8 +17,7 @@ public class UserMenu {
     public UserMenu() {
     }
 
-
-    /**     * INPUT     */
+    /**      INPUT     */
     public void inFromUser() {
 
         InputClass inputClass = new InputClass();
@@ -63,39 +62,53 @@ public class UserMenu {
             inFromUser();
         }
         if (mainArr[0].strip().toUpperCase().equals("REPORT")) {
-
             getReport();
         }
         if (mainArr[0].strip().toUpperCase().equals("EXIT")) {
-
             endOfProgramm();
+        }
+
+        if (mainArr[0].strip().toUpperCase().equals("HELP")) {
+            getInstructions();
         }
 
     }
 
-    /**     * REPORT     */
+    /**      REPORT     */
     public void getReport() {
-//        System.out.println("index: " + index);
+        printReport();
+        inFromUser();
+    }
+
+    /**      print REPORT     */
+    public void printReport() {
         DecimalFormat df = new DecimalFormat("#,###.00", DecimalFormatSymbols.getInstance(Locale.US));
         System.out.println();
         System.out.println("Отчёт о финансах:");
-//        String formattedINCOME = nf.format(INCOME);
         System.out.println("Общий доход: " + df.format(INCOME));
         System.out.println("Общие расходы: " + df.format(EXPENSE));
         System.out.println("Балланс: " + df.format(INCOME.subtract(EXPENSE)));
-
         System.out.println(String.format("%-15s %-15s %-15s %-15s", "Дата", "Сумма", "Тип", "Описание"));
         System.out.println("---------------------------------------------------------------------------");
 
         for (Transaction Transaction : Transaction.arrTransaction) {
             System.out.println(Transaction);
         }
+    }
+
+
+    /**      HELP     */
+    public void getInstructions(){
+        System.out.println("\n*************************************");
+        HelpClass.getHelp();
+        System.out.println("*************************************");
         inFromUser();
     }
 
     /**      EXIT     */
     public void endOfProgramm() {
-        System.out.println("Работа программы завершена, ждём вас снова!\n");
+        printReport();
+        System.out.println("\nРабота программы завершена, ждём вас снова!\n");
         System.exit(0);
     }
 }
