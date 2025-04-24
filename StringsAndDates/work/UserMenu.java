@@ -8,105 +8,72 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class UserMenu {
-//    HELP(1), // — вывести инструкцию по использованию приложения. Инструкция должна содержать список доступных команд и пример строки для ввода новой транзакции.
-//    REPORT(2),  /* — вывести отчёт о финансах.*/
-//    EXIT(3), //— вывести отчёт и завершить работу программы.
-//    EXPENSE, //расход
-//    INCOME; //доход
-
-//    UserMenu(int code) {
-//        this.code = code;
-//    }
-
-//    public int getCode() {
-//        return code;
-//    }
 
     int index = 0;
     BigDecimal EXPENSE = BigDecimal.ZERO;
     BigDecimal INCOME = BigDecimal.ZERO;
-//    FinancialAccounting financialAccounting = null;
+
 
     public UserMenu() {
     }
 
+
+    /**     * INPUT     */
     public void inFromUser() {
-//        Scanner scanner = new Scanner(System.in);
+
         InputClass inputClass = new InputClass();
         String[] mainArr = new String[4];
         mainArr = inputClass.arrFromInput();
-        System.out.println("mainArr.length: " + mainArr.length);
-        System.out.println("mainArr[0]: " + mainArr[0]);
-//        System.out.println("mainArr[1]: " + mainArr[1]);
-//        System.out.println("mainArr[2]: " + mainArr[2]);
-//        System.out.println("mainArr[3]: " + mainArr[3]);
-//        if (input.toUpperCase().equals("REPORT")) {
-//            UserMenu userMenu = new UserMenu();
-//            userMenu.getReport();
-//        }
-
-
-//        String[] mainArr = new String[4];
-//        mainArr = inputClass.arrFromInput();
-//        String input = scanner.nextLine();
-//        mainArr = input.split("; ");
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         if (mainArr.length > 1) {
-            FinancialAccounting financialAccounting =
-                    new FinancialAccounting(mainArr[0].strip(),
-                            new BigDecimal(mainArr[1]),
-                            mainArr[2].toUpperCase(),
-                            LocalDate.parse(mainArr[3],
+            Transaction transaction =
+                    new Transaction(mainArr[0].strip(),
+                            new BigDecimal(mainArr[1].strip()),
+                            mainArr[2].strip().toUpperCase(),
+                            LocalDate.parse(mainArr[3].strip(),
                                     formatter));
 
 
-            financialAccounting.arrFinancialAccounting[index] = financialAccounting;
-            index++;
-//        System.out.println("index после index++: " + index);
-
-            if (index >= FinancialAccounting.arrFinancialAccounting.length) {
-                int lengthArr = FinancialAccounting.arrFinancialAccounting.length;
-                for (int i = lengthArr - 1; i > 0; i--) {
-                    FinancialAccounting.arrFinancialAccounting[i] = FinancialAccounting.arrFinancialAccounting[i - 1];
-                }
-                FinancialAccounting.arrFinancialAccounting[0] = financialAccounting;
-                index = 0;
+            if (index < Transaction.arrTransaction.length) {
+                Transaction.arrTransaction[index] = transaction;
             }
 
-//            if (index < FinancialAccounting.arrFinancialAccounting.length) {
-//            System.out.println("index перед inFromUser(): " + index);
-//                inFromUser();
-//            }
-            System.out.println("financialAccounting.type(): " + financialAccounting.type());
-            if (financialAccounting.type().equals("EXPENSE")) {
+            index++;
+
+            // смещение массива
+            if (index == Transaction.arrTransaction.length + 1) {
+                int lengthArr = Transaction.arrTransaction.length;
+                for (int i = 0; i < lengthArr - 1; i++) {
+                    Transaction.arrTransaction[i] = Transaction.arrTransaction[i + 1];
+                }
+                Transaction.arrTransaction[lengthArr - 1] = transaction;
+                index = lengthArr;
+            }
+
+            if (transaction.type().equals("EXPENSE")) {
                 EXPENSE = EXPENSE.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
-                System.out.println("EXPENSE: " + EXPENSE);
+
             } else {
                 INCOME = INCOME.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
-                System.out.println("INCOME: " + INCOME);
+
             }
             inFromUser();
         }
-        if(mainArr[0].strip().toUpperCase().equals("REPORT")) {
-            System.out.println("getReport()");
+        if (mainArr[0].strip().toUpperCase().equals("REPORT")) {
+
             getReport();
         }
-//        try {
-//        System.out.println("financialAccounting.type(): " + financialAccounting.type());
-//        if (financialAccounting.type().equals("EXPENSE")) {
-//            EXPENSE = EXPENSE.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
-//            System.out.println("EXPENSE: " + EXPENSE);
-//        } else {
-//            INCOME = INCOME.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
-//            System.out.println("INCOME: " + INCOME);
-//        }
-//        }catch (NullPointerException e) {}
+        if (mainArr[0].strip().toUpperCase().equals("EXIT")) {
+
+            endOfProgramm();
+        }
+
     }
 
-
+    /**     * REPORT     */
     public void getReport() {
 //        System.out.println("index: " + index);
         DecimalFormat df = new DecimalFormat("#,###.00", DecimalFormatSymbols.getInstance(Locale.US));
@@ -120,36 +87,18 @@ public class UserMenu {
         System.out.println(String.format("%-15s %-15s %-15s %-15s", "Дата", "Сумма", "Тип", "Описание"));
         System.out.println("---------------------------------------------------------------------------");
 
-        for (FinancialAccounting financialAccounting : FinancialAccounting.arrFinancialAccounting) {
-            System.out.println(financialAccounting);
+        for (Transaction Transaction : Transaction.arrTransaction) {
+            System.out.println(Transaction);
         }
+        inFromUser();
     }
 
-    //    EXIT
+    /**      EXIT     */
     public void endOfProgramm() {
         System.out.println("Работа программы завершена, ждём вас снова!\n");
         System.exit(0);
     }
 }
 
-
-//    public void inReport() {
-//        InputClass inputClass = new InputClass();
-//        String[] mainArr = inputClass.arrFromInput();
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-//
-//        FinancialAccounting[] arrFinancialAccounting = new FinancialAccounting[5];
-//        FinancialAccounting financialAccounting = new FinancialAccounting(mainArr[0].strip(), new BigDecimal(mainArr[1]), Enum.valueOf(UserMenu.class, mainArr[2].toUpperCase()), LocalDate.parse(mainArr[3], formatter));
-//
-//
-//        System.out.println("InputClass.index: " + index);
-//        arrFinancialAccounting[index] = financialAccounting;
-//        index++;
-//        System.out.println("InputClass.index: " + index);
-//
-//        System.out.println(arrFinancialAccounting[index]);
-//        inReport();
-//    }
 
 

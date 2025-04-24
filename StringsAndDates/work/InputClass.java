@@ -11,12 +11,7 @@ public class InputClass {
     public String[] arrFromInput() {
         String[] arr = new String[4];
         String input = scanner.nextLine();
-//        if(input.toUpperCase().equals("REPORT")) {
-//            UserMenu userMenu = new UserMenu();
-////            userMenu.getReport();
-//        }
-
-        arr = input.split("; ");
+        arr = input.split(";");
 
         return arr;
     }
