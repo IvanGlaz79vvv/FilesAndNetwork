@@ -1,6 +1,5 @@
 package work;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class InputClass {
@@ -10,12 +9,13 @@ public class InputClass {
 
     //    INPUT
     public String[] arrFromInput() {
-        String[] arr = new String[3];
+        String[] arr = new String[4];
         String input = scanner.nextLine();
-        if(input.equals("REPORT")) {
-            UserMenu userMenu = new UserMenu();
-            userMenu.getReport();
-        }
+//        if(input.toUpperCase().equals("REPORT")) {
+//            UserMenu userMenu = new UserMenu();
+////            userMenu.getReport();
+//        }
+
         arr = input.split("; ");
 
         return arr;

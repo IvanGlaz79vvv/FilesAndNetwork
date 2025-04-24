@@ -1,5 +1,7 @@
 package work;
 
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
         /*
@@ -9,12 +11,20 @@ public class Main {
         Премия; 10000; INCOME; 25.03.2036
         Скин на цифрового аватара; 3900; EXPENSE; 26.03.2036
         Доставка наноеды; 745.89; EXPENSE; 27.03.2036
+        REPORT
+        Report
         */
 
         UserMenu userMenu = new UserMenu();
         userMenu.inFromUser();
 
-        userMenu.getReport();
+//        userMenu.getReport();
 
     }
 }
+
+
+
+
+
+

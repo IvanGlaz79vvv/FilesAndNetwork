@@ -25,44 +25,85 @@ public class UserMenu {
     int index = 0;
     BigDecimal EXPENSE = BigDecimal.ZERO;
     BigDecimal INCOME = BigDecimal.ZERO;
+//    FinancialAccounting financialAccounting = null;
 
     public UserMenu() {
     }
 
     public void inFromUser() {
-//        System.out.println("index: " + index);
-
+//        Scanner scanner = new Scanner(System.in);
         InputClass inputClass = new InputClass();
-        String[] mainArr = inputClass.arrFromInput();
+        String[] mainArr = new String[4];
+        mainArr = inputClass.arrFromInput();
+        System.out.println("mainArr.length: " + mainArr.length);
+        System.out.println("mainArr[0]: " + mainArr[0]);
+//        System.out.println("mainArr[1]: " + mainArr[1]);
+//        System.out.println("mainArr[2]: " + mainArr[2]);
+//        System.out.println("mainArr[3]: " + mainArr[3]);
+//        if (input.toUpperCase().equals("REPORT")) {
+//            UserMenu userMenu = new UserMenu();
+//            userMenu.getReport();
+//        }
+
+
+//        String[] mainArr = new String[4];
+//        mainArr = inputClass.arrFromInput();
+//        String input = scanner.nextLine();
+//        mainArr = input.split("; ");
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        FinancialAccounting financialAccounting = new FinancialAccounting(mainArr[0].strip(), new BigDecimal(mainArr[1]), mainArr[2].toUpperCase(), LocalDate.parse(mainArr[3], formatter));
+        if (mainArr.length > 1) {
+            FinancialAccounting financialAccounting =
+                    new FinancialAccounting(mainArr[0].strip(),
+                            new BigDecimal(mainArr[1]),
+                            mainArr[2].toUpperCase(),
+                            LocalDate.parse(mainArr[3],
+                                    formatter));
 
-        financialAccounting.arrFinancialAccounting[index] = financialAccounting;
-        index++;
-        System.out.println("index после index++: " + index);
 
-        if (index >= FinancialAccounting.arrFinancialAccounting.length) {
-            int lengthArr = FinancialAccounting.arrFinancialAccounting.length;
-            for(int i = lengthArr - 1; i > 0; i--) {
-                FinancialAccounting.arrFinancialAccounting[i] = FinancialAccounting.arrFinancialAccounting[i-1];
+            financialAccounting.arrFinancialAccounting[index] = financialAccounting;
+            index++;
+//        System.out.println("index после index++: " + index);
+
+            if (index >= FinancialAccounting.arrFinancialAccounting.length) {
+                int lengthArr = FinancialAccounting.arrFinancialAccounting.length;
+                for (int i = lengthArr - 1; i > 0; i--) {
+                    FinancialAccounting.arrFinancialAccounting[i] = FinancialAccounting.arrFinancialAccounting[i - 1];
+                }
+                FinancialAccounting.arrFinancialAccounting[0] = financialAccounting;
+                index = 0;
             }
-            FinancialAccounting.arrFinancialAccounting[0] = financialAccounting;
-            index = 0;
-        }
 
-        if (index < FinancialAccounting.arrFinancialAccounting.length) {
-            System.out.println("index перед inFromUser(): " + index);
+//            if (index < FinancialAccounting.arrFinancialAccounting.length) {
+//            System.out.println("index перед inFromUser(): " + index);
+//                inFromUser();
+//            }
+            System.out.println("financialAccounting.type(): " + financialAccounting.type());
+            if (financialAccounting.type().equals("EXPENSE")) {
+                EXPENSE = EXPENSE.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
+                System.out.println("EXPENSE: " + EXPENSE);
+            } else {
+                INCOME = INCOME.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
+                System.out.println("INCOME: " + INCOME);
+            }
             inFromUser();
-
         }
-
-        if (financialAccounting.type().equals("EXPENSE")) {
-            EXPENSE = EXPENSE.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
-        } else {
-            INCOME = INCOME.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
+        if(mainArr[0].strip().toUpperCase().equals("REPORT")) {
+            System.out.println("getReport()");
+            getReport();
         }
+//        try {
+//        System.out.println("financialAccounting.type(): " + financialAccounting.type());
+//        if (financialAccounting.type().equals("EXPENSE")) {
+//            EXPENSE = EXPENSE.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
+//            System.out.println("EXPENSE: " + EXPENSE);
+//        } else {
+//            INCOME = INCOME.add(BigDecimal.valueOf(Double.parseDouble(mainArr[1])));
+//            System.out.println("INCOME: " + INCOME);
+//        }
+//        }catch (NullPointerException e) {}
     }
 
 
