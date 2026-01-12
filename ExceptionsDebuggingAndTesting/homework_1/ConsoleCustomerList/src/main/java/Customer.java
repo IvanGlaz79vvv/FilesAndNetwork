@@ -1,3 +1,5 @@
+package main.java;
+
 public class Customer {
     private final String name;
     private final String phone;
