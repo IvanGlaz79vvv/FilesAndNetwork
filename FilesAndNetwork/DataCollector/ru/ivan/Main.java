@@ -7,11 +7,15 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         WebParce webParce = new WebParce();
-        Document htmlFile = webParce.parceSite("https://skillbox-java.github.io/");
+        String path = "https://skillbox-java.github.io/";
+        Document htmlFile = webParce.parceSite(path);
 
-        MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
+        MoscowMetroLinesAndStations moscowMetroLinesAndStations = new MoscowMetroLinesAndStations();
 
-        Map<String, String> mapOfmoscowMetroLines = moscowMetroLines.getLines("https://skillbox-java.github.io/");
-        mapOfmoscowMetroLines.forEach((key, value)-> System.out.println(key + ". " + value));
+        Map<String, String> mapOfMoscowMetroLines = moscowMetroLinesAndStations.getLines(path);
+        mapOfMoscowMetroLines.forEach((key, value)-> System.out.println(key + ". " + value));
+
+        Map<String, String> mapOfMoscowMetroStations = moscowMetroLinesAndStations.getStations(path);
+        mapOfMoscowMetroStations.forEach((key, value)-> System.out.println("Линия " + key + ": " + value));
     }
 }
