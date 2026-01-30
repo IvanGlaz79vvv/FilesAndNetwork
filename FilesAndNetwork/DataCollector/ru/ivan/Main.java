@@ -1,21 +1,20 @@
 package ru.ivan;
 
-import org.jsoup.nodes.Document;
-
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        WebParce webParce = new WebParce();
-        String path = "https://skillbox-java.github.io/";
-        Document htmlFile = webParce.parceSite(path);
+        String pathLocal = "html/Метро Москвы.html";
+        String pathWeb = "https://skillbox-java.github.io/";
+        MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
+        MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
 
-        MoscowMetroLinesAndStations moscowMetroLinesAndStations = new MoscowMetroLinesAndStations();
-
-        Map<String, String> mapOfMoscowMetroLines = moscowMetroLinesAndStations.getLines(path);
-        mapOfMoscowMetroLines.forEach((key, value)-> System.out.println(key + ". " + value));
-
-        Map<String, String> mapOfMoscowMetroStations = moscowMetroLinesAndStations.getStations(path);
-        mapOfMoscowMetroStations.forEach((key, value)-> System.out.println("Линия " + key + ": " + value));
+        System.out.println("\nLOCAL Lines:");
+        Map<String, String> mapLocal = moscowMetroLines.GetlocalHtmlLines(pathLocal);
+        mapLocal.forEach((key, value) -> System.out.println(key + ". " + value));
+//
+        System.out.println("\nWEB Lines:");
+        Map<String, String> mapWebLines = moscowMetroLines.getWebHtmlLines(pathWeb);
+        mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));
     }
 }
