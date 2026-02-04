@@ -25,7 +25,7 @@ public class MoscowMetroLines {
         return mapLines;
     }
 
-    public Map<String, String> GetlocalHtmlLines(String path) {
+    public Map<String, String> getlocalHtmlLines(String path) {
         Map<String, String> mapLines = new LinkedHashMap<>();
         {
             LocalHtmlParce localHtmlParce = new LocalHtmlParce();
@@ -36,6 +36,7 @@ public class MoscowMetroLines {
                     String lName = l.text();
                     String lNumber = l.attr("data-line");
                     mapLines.put(lNumber, lName);
+
                 }
             }
         }
