@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="nio_framework-1.0_all">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/nio_framework-1.0_all.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/nio_framework-1.0_all.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/nio_framework-1.0_all.jar!/" />
+    </SOURCES>
+  </library>
+</component>

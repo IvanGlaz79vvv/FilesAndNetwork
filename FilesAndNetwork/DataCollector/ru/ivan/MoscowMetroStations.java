@@ -27,12 +27,12 @@ public class MoscowMetroStations {
         return mapStations;
     }
 
-    public Map<String, List<Element>> getLocalHtmlStations(String path) {
+    public Map<String, Elements> getLocalHtmlStations(String path) {
         LocalHtmlParce localHtmlParce = new LocalHtmlParce();
         Document doc = localHtmlParce.parceLocalHtml(path);
 
         // Карта для хранения данных (ключ — название линии, значение — список станций)
-        Map<String, List<Element>> mapOfLinesAndStations = new LinkedHashMap<>();
+        Map<String, /*List<Elements>*/Elements> mapOfLinesAndStations = new LinkedHashMap<>();
 
         // Получаем все заголовки линий
         Elements linesHeaders = doc.select(".js-metro-line");
@@ -47,16 +47,10 @@ public class MoscowMetroStations {
             String lineDataAttr = header.attr("data-line");
 
             // Находим ближайшие станции, связанные с этой линией
-            Elements stations = doc.select("[data-line='" + lineDataAttr + "'] p.single-station span.name");
+            Elements stations = doc.select("[data-line='" + lineDataAttr + "'] p.single-station");
+//            String stationNum = stations.attr("num");
 
-            mapOfLinesAndStations.put(lineName, stations);
-
-            // Выводим все станции этой линии
-//            for (Element station : stations) {
-//                System.out.println("\tСтанция: " + station.text());
-//            }
-//
-//            System.out.println(); // Разрыв между линиями
+            mapOfLinesAndStations.put(lineDataAttr + ". " + lineName, stations);
         }
         return mapOfLinesAndStations;
     }

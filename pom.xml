@@ -25,8 +25,35 @@
         </plugins>
     </build>
 
-    <!-- https://mvnrepository.com/artifact/junit/junit -->
+
     <dependencies>
+        <!--<repositories>
+            <repository>
+                <id>jcenter</id>
+                <url>https://jcenter.bintray.com</url>
+            </repository>
+        </repositories>-->
+        <!-- Source: https://mvnrepository.com/artifact/nio/nio -->
+        <!--<dependency>
+            <groupId>nio</groupId>
+            <artifactId>nio</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>nio_framework</groupId>
+            <artifactId>nio_framework-1.0_all</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/nio_framework-1.0_all.jar</systemPath>
+        </dependency>-->
+        <!-- Source: https://mvnrepository.com/artifact/com.github.crabs-hue.commons/commons-nio-file -->
+        <dependency>
+            <groupId>com.github.crabs-hue.commons</groupId>
+            <artifactId>commons-nio-file</artifactId>
+            <version>2.1.0</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Source: https://mvnrepository.com/artifact/org.jsoup/jsoup -->
         <dependency>
             <groupId>org.jsoup</groupId>

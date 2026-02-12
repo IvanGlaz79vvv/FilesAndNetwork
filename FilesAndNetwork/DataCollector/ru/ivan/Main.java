@@ -1,10 +1,9 @@
 package ru.ivan;
 
-import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import javax.lang.model.util.Elements;
+import java.io.File;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -14,15 +13,18 @@ public class Main {
         MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
 
-//        System.out.println("\nLOCAL Lines:");
-//        Map<String, String> mapLocal = moscowMetroLines.getlocalHtmlLines(pathLocal);
-//        mapLocal.forEach((key, value) -> System.out.println(key + ". " + value));
-//
-//        System.out.println("\nWEB Lines:");
-//        Map<String, String> mapWebLines = moscowMetroLines.getWebHtmlLines(pathWeb);
-//        mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));
+        MySearchFiles mySearchFiles = new MySearchFiles();
+        mySearchFiles.readMyFiles("data");
 
-        Map<String, List<Element>> map = new LinkedHashMap<>();
+        System.out.println("\nLOCAL Lines:");
+        Map<String, String> mapLocal = moscowMetroLines.getlocalHtmlLines(pathLocal);
+        mapLocal.forEach((key, value) -> System.out.println(key + ". " + value));
+
+        System.out.println("\nWEB Lines:");
+        Map<String, String> mapWebLines = moscowMetroLines.getWebHtmlLines(pathWeb);
+        mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));
+
+        Map<String, Elements> map = new LinkedHashMap<>();
         map = moscowMetroStations.getLocalHtmlStations(pathLocal);
         for (String s : map.keySet()) {
             System.out.println("\n" + s + ":");
