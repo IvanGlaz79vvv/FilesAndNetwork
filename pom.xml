@@ -25,29 +25,42 @@
         </plugins>
     </build>
 
-
     <dependencies>
-        <!--<repositories>
-            <repository>
-                <id>jcenter</id>
-                <url>https://jcenter.bintray.com</url>
-            </repository>
-        </repositories>-->
-        <!-- Source: https://mvnrepository.com/artifact/nio/nio -->
-        <!--<dependency>
-            <groupId>nio</groupId>
-            <artifactId>nio</artifactId>
-            <version>1.0.4</version>
+        <!-- Source: https://mvnrepository.com/artifact/com.konghq/unirest-objectmapper-jackson -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-objectmapper-jackson</artifactId>
+            <version>4.2.9</version>
             <scope>compile</scope>
-        </dependency>-->
-        <!--<dependency>
-            <groupId>nio_framework</groupId>
-            <artifactId>nio_framework-1.0_all</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/nio_framework-1.0_all.jar</systemPath>
-        </dependency>-->
-        <!-- Source: https://mvnrepository.com/artifact/com.github.crabs-hue.commons/commons-nio-file -->
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.42</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.21.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.29</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.crabs-hue.commons</groupId>
             <artifactId>commons-nio-file</artifactId>

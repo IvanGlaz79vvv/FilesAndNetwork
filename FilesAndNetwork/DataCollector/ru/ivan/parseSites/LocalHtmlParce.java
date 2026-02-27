@@ -1,4 +1,4 @@
-package ru.ivan;
+package ru.ivan.parseSites;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

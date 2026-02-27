@@ -1,10 +1,11 @@
 package ru.ivan;
 
-import org.jsoup.select.Elements;
+import ru.ivan.parseSites.MoscowMetroLines;
+import ru.ivan.parseSites.MoscowMetroStations;
+import ru.ivan.parse_JSON_CSV.Depths;
+import ru.ivan.parse_JSON_CSV.MyParceJSON;
 
-import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,23 +13,33 @@ public class Main {
         String pathWeb = "https://skillbox-java.github.io/";
         MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-
+        MyParceJSON myParceJSON = new MyParceJSON();
         MySearchFiles mySearchFiles = new MySearchFiles();
-        mySearchFiles.readMyFiles("data");
 
-        System.out.println("\nLOCAL Lines:");
+        /**Вывод JSON*/
+        List<String> dataAddress = mySearchFiles.serchMyFiles("data");
+        String pathOfJson = String.valueOf(dataAddress.get(1));
+        List<Depths> listOfDepths = myParceJSON.parceMyJson(pathOfJson);
+        listOfDepths.forEach(System.out::println);
+        System.out.println();
+        dataAddress.forEach(System.out::println);
+
+        /**Вывод линий с локального файла сайта */
+        /*System.out.println("\nLOCAL Lines:");
         Map<String, String> mapLocal = moscowMetroLines.getlocalHtmlLines(pathLocal);
-        mapLocal.forEach((key, value) -> System.out.println(key + ". " + value));
+        mapLocal.forEach((key, value) -> System.out.println(key + ". " + value));*/
 
-        System.out.println("\nWEB Lines:");
+        /**Вывод линий с сайта он-лайн */
+        /*System.out.println("\nWEB Lines:");
         Map<String, String> mapWebLines = moscowMetroLines.getWebHtmlLines(pathWeb);
-        mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));
+        mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));*/
 
-        Map<String, Elements> map = new LinkedHashMap<>();
+        /**Вывод списка всех станций отсортированный по линиям*/
+        /*Map<String, Elements> map = new LinkedHashMap<>();
         map = moscowMetroStations.getLocalHtmlStations(pathLocal);
         for (String s : map.keySet()) {
             System.out.println("\n" + s + ":");
-            map.get(s).forEach(l-> System.out.println("\t" + l.text()));
-        }
+            map.get(s).forEach(l -> System.out.println("\t" + l.text()));
+        }*/
     }
 }
