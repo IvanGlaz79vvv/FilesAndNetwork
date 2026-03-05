@@ -20,12 +20,10 @@ public class MyParceJSON<T> {
 
 
     public List<Depths> parceMyJson(String path) {
-        ObjectMapper objectMapper = new ObjectMapper();
         List<Depths> list = new ArrayList<>();
         try {
-//            if (dataAddress.size() > 1 && !path.isEmpty()) {
             JSONParser parser = new JSONParser();
-            JSONArray jsonArray = (JSONArray) parser.parse(getJSON(path));
+            JSONArray jsonArray = (JSONArray) parser.parse(getDataFromJSON(path));
             for (int i = 0; i < jsonArray.toArray().length; i++) {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 String name = jsonObject.get("station_name").toString();
@@ -33,7 +31,6 @@ public class MyParceJSON<T> {
                 Depths depths = new Depths(name, depth);
                 list.add(depths);
             }
-
         } catch (Exception e) {
             System.out.println("Список адресов пустой или неверный индекс.");
             e.printStackTrace();
@@ -41,7 +38,7 @@ public class MyParceJSON<T> {
         return list;
     }
 
-    public String getJSON(String path) {
+    public String getDataFromJSON(String path) {
         StringBuilder builder = new StringBuilder();
         try {
             List<String> lines = Files.readAllLines(Paths.get(path));
