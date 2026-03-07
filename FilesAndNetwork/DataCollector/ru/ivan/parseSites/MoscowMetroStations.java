@@ -55,27 +55,3 @@ public class MoscowMetroStations {
         return mapOfLinesAndStations;
     }
 }
-
-
-
-
-
-            /*// Получаем название линии
-            Elements namesOfLines = line.select(".t-metrostation-list-header");
-
-            //Получаем номер линии
-            String numbers = line.attr("data-line");
-
-            // Определяем родительский контейнер станции (обычно рядом с заголовком)
-            Element parentDiv = line.parent();
-            while (!parentDiv.classNames().contains("js-depend")) {
-                parentDiv = parentDiv.parent(); // поднимаемся вверх по дереву пока не найдем нужный родительский элемент
-            }
-            // Теперь в этом родительском блоке ищем станции
-            Elements stations = parentDiv.select(".js-metro-stations p.single-station span.name");
-
-            // Выводим информацию
-            System.out.println("Линия №" + numbers + ": " + line.text());
-            for (Element station : stations) {
-                System.out.println("- " + station.text());
-            }*/
