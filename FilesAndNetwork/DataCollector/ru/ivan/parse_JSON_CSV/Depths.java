@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class Depths {
     String station_name;
-    String depth;
+        String depth;
+//    int depth;
 
+    //    public Depths(String station_name, String depth) {
     public Depths(String station_name, String depth) {
         this.station_name = station_name;
         this.depth = depth;
