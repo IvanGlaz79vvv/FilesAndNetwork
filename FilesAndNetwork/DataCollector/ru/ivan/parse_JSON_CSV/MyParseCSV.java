@@ -3,10 +3,9 @@ package ru.ivan.parse_JSON_CSV;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class MyParceCSV {
+public class MyParseCSV {
 
     public List<DatesCSV> parceMyCSV(String path) {
         List<DatesCSV> datesCSV = new ArrayList<>();

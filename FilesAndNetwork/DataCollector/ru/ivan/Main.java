@@ -1,12 +1,11 @@
 package ru.ivan;
 
-import org.jsoup.select.Elements;
 import ru.ivan.parseSites.MoscowMetroLines;
 import ru.ivan.parseSites.MoscowMetroStations;
 import ru.ivan.parse_JSON_CSV.DatesCSV;
 import ru.ivan.parse_JSON_CSV.Depths;
-import ru.ivan.parse_JSON_CSV.MyParceCSV;
 import ru.ivan.parse_JSON_CSV.MyParceJSON;
+import ru.ivan.parse_JSON_CSV.MyParseCSV;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,17 +13,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Main {
-    public static void main(String[] args) {
+    static void main() {
+
         csvOutput("data");
         jsonOutput("data");
         linesOfLocalFile("html/Метро Москвы.html");
         linesOfWEB("https://skillbox-java.github.io/");
-        linesWithStationsSorted("html/Метро Москвы.html");
+        linesWithStationsSortedLocal("html/Метро Москвы.html");
+        linesWithStationsSortedWEB("https://skillbox-java.github.io/");
+
+//        WriteToJson writeToJson = new WriteToJson();
+//        writeToJson.makesAnEntryInJSON("html/Метро Москвы.html");
+
+
     }
 
     public static void csvOutput(String data) {
         System.out.println("\n\n" + "*********************************\n" + "Вывод CSV");
-        MyParceCSV myParceCSV = new MyParceCSV();
+        MyParseCSV myParseCSV = new MyParseCSV();
         MySearchFiles mySearchFiles = new MySearchFiles();
         List<String> dataAddress = mySearchFiles.searchMyFiles(data);
         List<String> pathOfCSV = dataAddress.stream()
@@ -33,7 +39,7 @@ public class Main {
         for (String path : pathOfCSV) {
             System.out.println();
             System.out.println(path);
-            List<DatesCSV> listOfCSV = myParceCSV.parceMyCSV(path);
+            List<DatesCSV> listOfCSV = myParseCSV.parceMyCSV(path);
             listOfCSV.forEach(csv -> System.out.println("\t" + csv));
         }
     }
@@ -69,17 +75,31 @@ public class Main {
         mapWebLines.forEach((key, value) -> System.out.println(key + ". " + value));
     }
 
-    public static void linesWithStationsSorted(String path) {
+    public static void linesWithStationsSortedLocal(String path) {
         System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций отсортированный по линиям");
-        MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
-        Map<String, Elements> map = new LinkedHashMap<>();
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
+        Map<String, List<String>> map = new LinkedHashMap<>();
         map = moscowMetroStations.getLocalHtmlStations(path);
         for (String s : map.keySet()) {
             System.out.println("\n" + s + ":");
-            map.get(s).forEach(l -> System.out.println("\t" + l.text()));
+            List<String> stationsTemp = map.get(s);
+            for (String st : stationsTemp) {
+                System.out.println("\t" + st);
+            }
         }
+    }
 
-
+    public static void linesWithStationsSortedWEB(String path) {
+        System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций отсортированный по линиям");
+        MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
+        Map<String, List<String>> map = new LinkedHashMap<>();
+        map = moscowMetroStations.getWebHtmlStations(path);
+        for (String s : map.keySet()) {
+            System.out.println("\n" + s + ":");
+            List<String> stationsTemp = map.get(s);
+            for (String st : stationsTemp) {
+                System.out.println("\t" + st);
+            }
+        }
     }
 }

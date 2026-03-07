@@ -28,6 +28,7 @@ public class MyParceJSON<T> {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 String name = jsonObject.get("station_name").toString();
                 String depth = jsonObject.get("depth").toString();
+//                int depth = Integer.parseInt(jsonObject.get("depth").toString());
                 Depths depths = new Depths(name, depth);
                 list.add(depths);
             }
