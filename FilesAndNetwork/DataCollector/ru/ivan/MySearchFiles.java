@@ -10,7 +10,7 @@ import java.util.List;
 public class MySearchFiles {
     List<String> listOfMySearchFiles = new ArrayList<>();
 
-    public List<String> serchMyFiles(String path) {
+    public List<String> searchMyFiles(String path) {
         File file = new File(path);
         if (file.exists() && file.isDirectory()) {
             recursiveListFiles(file);
@@ -32,4 +32,6 @@ public class MySearchFiles {
             }
         }
     }
+
+
 }

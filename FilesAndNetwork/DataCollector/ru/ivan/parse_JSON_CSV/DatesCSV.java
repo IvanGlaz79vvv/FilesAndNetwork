@@ -2,8 +2,6 @@ package ru.ivan.parse_JSON_CSV;
 
 import lombok.Data;
 
-import java.time.Instant;
-
 @Data
 public class DatesCSV {
     String name;
@@ -16,8 +14,6 @@ public class DatesCSV {
 
     @Override
     public String toString() {
-        return "(" +
-                name + ", " +
-                date + ")";
+        return name + ", " + date;
     }
 }

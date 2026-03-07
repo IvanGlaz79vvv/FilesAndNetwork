@@ -17,8 +17,7 @@ public class Depths {
 
     @Override
     public String toString() {
-        return "Depths(" +
-                station_name + ", " +
-                depth + ")";
+        return station_name + ", " +
+                depth;
     }
 }
