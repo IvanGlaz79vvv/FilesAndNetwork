@@ -11,7 +11,6 @@ public class Stations {
     String transition;
     boolean hasConnection;
 
-
     public Stations() {
     }
 

@@ -26,7 +26,6 @@ public class Main {
 //        WriteToJson writeToJson = new WriteToJson();
 //        writeToJson.makesAnEntryInJSON("html/Метро Москвы.html");
 
-
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
         moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html");
     }

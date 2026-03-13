@@ -77,7 +77,6 @@ public class MoscowMetroStations {
                 System.out.println("transitions: " + transition.attr("title"));
             }
 
-
             mapOfLinesAndStations.put(lineNum + ". " + lineName, stations);
         }
         return mapOfLinesAndStations;
