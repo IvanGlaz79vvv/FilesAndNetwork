@@ -6,6 +6,7 @@ import ru.ivan.parse_JSON_CSV.DatesCSV;
 import ru.ivan.parse_JSON_CSV.Depths;
 import ru.ivan.parse_JSON_CSV.MyParceJSON;
 import ru.ivan.parse_JSON_CSV.MyParseCSV;
+import ru.ivan.writer.WriteToJson;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,15 +16,19 @@ import java.util.stream.Collectors;
 public class Main {
     static void main() {
 
-        csvOutput("data");
-        jsonOutput("data");
-        linesOfLocalFile("html/Метро Москвы.html");
-        linesOfWEB("https://skillbox-java.github.io/");
-        linesWithStationsSortedLocal("html/Метро Москвы.html");
-        linesWithStationsSortedWEB("https://skillbox-java.github.io/");
+//        csvOutput("data");
+//        jsonOutput("data");
+//        linesOfLocalFile("html/Метро Москвы.html");
+//        linesOfWEB("https://skillbox-java.github.io/");
+//        linesWithStationsSortedLocal("html/Метро Москвы.html");
+//        linesWithStationsSortedWEB("https://skillbox-java.github.io/");
 
 //        WriteToJson writeToJson = new WriteToJson();
 //        writeToJson.makesAnEntryInJSON("html/Метро Москвы.html");
+
+
+        MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
+        moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html");
 
 
     }
@@ -83,9 +88,9 @@ public class Main {
         for (String s : map.keySet()) {
             System.out.println("\n" + s + ":");
             List<String> stationsTemp = map.get(s);
-            for (String st : stationsTemp) {
-                System.out.println("\t" + st);
-            }
+//            for (String st : stationsTemp) {
+//                System.out.println("\t" + st);
+//            }
         }
     }
 

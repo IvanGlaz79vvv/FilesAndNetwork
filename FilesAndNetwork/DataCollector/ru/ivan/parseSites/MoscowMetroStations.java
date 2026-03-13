@@ -57,38 +57,29 @@ public class MoscowMetroStations {
         for (Element header : linesHeaders) {
             // Имя линии
             String lineName = header.text();
+//            System.out.println("lineName:" + lineName);
 
             // Идентификатор линии (номер)
-            String lineDataAttr = header.attr("data-line");
+            String lineNum = header.attr("data-line");
+//            System.out.println("lineNum: " + lineNum);
 
             // Находим ближайшие станции, связанные с этой линией
-            Elements stationsElements = doc.select("[data-line='" + lineDataAttr + "'] p.single-station");
-//            String stationNum = Stations.attr("num");
+            Elements stationsElements = doc.select("[data-line='" + lineNum + "'] p.single-station");
 
             List<String> stations = new ArrayList<>(stationsElements.size());
             for(Element element:stationsElements){
                 stations.add(element.text());
             }
 
-            mapOfLinesAndStations.put(lineDataAttr + ". " + lineName, stations);
+            //Вывод переходов
+            Elements transitions = stationsElements.select("span.t-icon-metroln");
+            for(Element transition: transitions){
+                System.out.println("transitions: " + transition.attr("title"));
+            }
+
+
+            mapOfLinesAndStations.put(lineNum + ". " + lineName, stations);
         }
         return mapOfLinesAndStations;
     }
 }
-
-
-/*
-public Map<String, String> getWebHtmlStations(String path) {
-    Map<String, String> mapStations = new LinkedHashMap<>();
-    {
-        WebHtmlParce webHtmlParce = new WebHtmlParce();
-        Document doc = webHtmlParce.parceWebHtml(path);
-        Elements stations = doc.select("div.t-metrostation-list-table");
-        Elements numbers = doc.select("span.num");
-        Elements names = doc.select("span.name");
-        for (int i = 0; i < numbers.size(); i++) {
-            mapStations.put(numbers.get(i).text(), names.get(i).text());
-        }
-    }
-    return mapStations;
-}*/
