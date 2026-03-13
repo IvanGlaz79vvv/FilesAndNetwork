@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Main {
-    static void main() {
+    public static void main(String[] args) {
 
 //        csvOutput("data");
 //        jsonOutput("data");
@@ -29,8 +29,6 @@ public class Main {
 
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
         moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html");
-
-
     }
 
     public static void csvOutput(String data) {
