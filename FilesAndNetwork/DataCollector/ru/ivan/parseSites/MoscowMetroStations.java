@@ -3,81 +3,94 @@ package ru.ivan.parseSites;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.ivan.Stations;
 
 import java.util.*;
 
 public class MoscowMetroStations {
-
-    public Map<String, List<String>> getWebHtmlStations(String path) {
+    public Map<String, List<Stations>> getWebHtmlStations(String path) {
         WebHtmlParce webHtmlParce = new WebHtmlParce();
         Document doc = webHtmlParce.parceWebHtml(path);
-
-        // Карта для хранения данных (ключ — название линии, значение — список станций)
-        Map<String, List<String>> mapOfLinesAndStations = new LinkedHashMap<>();
+        Map<String, List<Stations>> mapOfLinesAndStations = new LinkedHashMap<>();
 
         // Получаем все заголовки линий
         Elements linesHeaders = doc.select(".js-metro-line");
-        List<String> listOfLines = new LinkedList<>();
 
         // Обрабатываем каждую линию
         for (Element header : linesHeaders) {
-            // Имя линии
-            String lineName = header.text();
-
-            // Идентификатор линии (номер)
-            String lineDataAttr = header.attr("data-line");
-
-            // Находим ближайшие станции, связанные с этой линией
-            Elements stationsElements = doc.select("[data-line='" + lineDataAttr + "'] p.single-station");
-//            String stationNum = Stations.attr("num");
-
-            List<String> stations = new ArrayList<>(stationsElements.size());
-            for(Element element:stationsElements){
-                stations.add(element.text());
-            }
-
-            mapOfLinesAndStations.put(lineDataAttr + ". " + lineName, stations);
-        }
-
-        return mapOfLinesAndStations;
-    }
-
-    public Map<String, List<String>> getLocalHtmlStations(String path) {
-        LocalHtmlParce localHtmlParce = new LocalHtmlParce();
-        Document doc = localHtmlParce.parceLocalHtml(path);
-
-        // Карта для хранения данных (ключ — название линии, значение — список станций)
-        Map<String, List<String>> mapOfLinesAndStations = new LinkedHashMap<>();
-
-        // Получаем все заголовки линий
-        Elements linesHeaders = doc.select(".js-metro-line");
-        List<String> listOfLines = new LinkedList<>();
-
-        // Обрабатываем каждую линию
-        for (Element header : linesHeaders) {
-            // Имя линии
-            String lineName = header.text();
-//            System.out.println("lineName:" + lineName);
-
+            List<Stations> listOfStations = new LinkedList<>();
             // Идентификатор линии (номер)
             String lineNum = header.attr("data-line");
-//            System.out.println("lineNum: " + lineNum);
+            // Имя линии
+            String name = header.text();
+            String lineName = lineNum + ". " + name;
+//            System.out.println("\n" + lineNum + ". " + lineName);
+
 
             // Находим ближайшие станции, связанные с этой линией
             Elements stationsElements = doc.select("[data-line='" + lineNum + "'] p.single-station");
 
-            List<String> stations = new ArrayList<>(stationsElements.size());
-            for(Element element:stationsElements){
-                stations.add(element.text());
-            }
+            for (Element element : stationsElements) {
+                //Название станции
+                String stationName = element.text();
+//                System.out.println("\telement.text(): " + element.text());
 
-            //Вывод переходов
-            Elements transitions = stationsElements.select("span.t-icon-metroln");
-            for(Element transition: transitions){
-                System.out.println("transitions: " + transition.attr("title"));
-            }
+                //Переход
+                String transition = element.select("span.t-icon-metroln").attr("title");
+//                if(!transition.equals("")) System.out.println("transition: " + transition);
 
-            mapOfLinesAndStations.put(lineNum + ". " + lineName, stations);
+                Stations station = new Stations(stationName, transition);
+                listOfStations.add(station);
+//                System.out.println(station);
+
+                mapOfLinesAndStations.put(lineName, listOfStations);
+
+            }
+            mapOfLinesAndStations.put(lineName, listOfStations);
+        }
+        return mapOfLinesAndStations;
+    }
+
+
+    public Map<String, List<Stations>> getLocalHtmlStations(String path) {
+        LocalHtmlParce localHtmlParce = new LocalHtmlParce();
+        Document doc = localHtmlParce.parceLocalHtml(path);
+        Map<String, List<Stations>> mapOfLinesAndStations = new LinkedHashMap<>();
+
+        // Получаем все заголовки линий
+        Elements linesHeaders = doc.select(".js-metro-line");
+
+        // Обрабатываем каждую линию
+        for (Element header : linesHeaders) {
+            List<Stations> listOfStations = new LinkedList<>();
+            // Идентификатор линии (номер)
+            String lineNum = header.attr("data-line");
+            // Имя линии
+            String name = header.text();
+            String lineName = lineNum + ". " + name;
+//            System.out.println("\n" + lineNum + ". " + lineName);
+
+
+            // Находим ближайшие станции, связанные с этой линией
+            Elements stationsElements = doc.select("[data-line='" + lineNum + "'] p.single-station");
+
+            for (Element element : stationsElements) {
+                //Название станции
+                String stationName = element.text();
+//                System.out.println("\telement.text(): " + element.text());
+
+                //Переход
+                String transition = element.select("span.t-icon-metroln").attr("title");
+//                if(!transition.equals("")) System.out.println("transition: " + transition);
+
+                Stations station = new Stations(stationName, transition);
+                listOfStations.add(station);
+//                System.out.println(station);
+
+                mapOfLinesAndStations.put(lineName, listOfStations);
+
+            }
+            mapOfLinesAndStations.put(lineName, listOfStations);
         }
         return mapOfLinesAndStations;
     }

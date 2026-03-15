@@ -20,14 +20,11 @@ public class Main {
 //        jsonOutput("data");
 //        linesOfLocalFile("html/Метро Москвы.html");
 //        linesOfWEB("https://skillbox-java.github.io/");
-//        linesWithStationsSortedLocal("html/Метро Москвы.html");
-//        linesWithStationsSortedWEB("https://skillbox-java.github.io/");
+        linesWithStationsSortedLocal("html/Метро Москвы.html");
+        linesWithStationsSortedWEB("https://skillbox-java.github.io/");
 
 //        WriteToJson writeToJson = new WriteToJson();
 //        writeToJson.makesAnEntryInJSON("html/Метро Москвы.html");
-
-        MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-        moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html");
     }
 
     public static void csvOutput(String data) {
@@ -78,30 +75,22 @@ public class Main {
     }
 
     public static void linesWithStationsSortedLocal(String path) {
-        System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций отсортированный по линиям");
+        System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций с локального файла отсортированный по линиям");
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-        Map<String, List<String>> map = new LinkedHashMap<>();
-        map = moscowMetroStations.getLocalHtmlStations(path);
-        for (String s : map.keySet()) {
-            System.out.println("\n" + s + ":");
-            List<String> stationsTemp = map.get(s);
-//            for (String st : stationsTemp) {
-//                System.out.println("\t" + st);
-//            }
+        Map<String, List<Stations>> map = moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html");
+        for(String line:map.keySet()){
+            System.out.println("\n" + line);
+            map.get(line).forEach(System.out::println);
         }
     }
 
     public static void linesWithStationsSortedWEB(String path) {
-        System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций отсортированный по линиям");
+        System.out.println("\n\n" + "*********************************\n" + "Вывод списка всех станций с сайта отсортированный по линиям");
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-        Map<String, List<String>> map = new LinkedHashMap<>();
-        map = moscowMetroStations.getWebHtmlStations(path);
-        for (String s : map.keySet()) {
-            System.out.println("\n" + s + ":");
-            List<String> stationsTemp = map.get(s);
-            for (String st : stationsTemp) {
-                System.out.println("\t" + st);
-            }
+        Map<String, List<Stations>> map = moscowMetroStations.getWebHtmlStations(path);
+        for(String line:map.keySet()){
+            System.out.println("\n" + line);
+            map.get(line).forEach(System.out::println);
         }
     }
 }

@@ -4,44 +4,32 @@ import lombok.Data;
 
 @Data
 public class Stations {
+    //    String num;
     String name;
-    String line;
-    String lineNum;
     String depth;
     String transition;
-    boolean hasConnection;
 
     public Stations() {
     }
 
-    public Stations(String name, String line, String lineNum, String depth) {
+    public Stations(String name, String transition) {
         this.name = name;
-        this.line = line;
-        this.lineNum = lineNum;
-        this.depth = depth;
+        this.transition = transition;
     }
 
-    public Stations(String name, String line, String lineNum, String depth, boolean hasConnection) {
+    public Stations(/*String num,*/ String name, String depth, String transition) {
+//        this.num = num;
         this.name = name;
-        this.line = line;
-        this.lineNum = lineNum;
-        this.depth = depth;
-        this.hasConnection = hasConnection;
-    }
-
-    public Stations(String name, String line, String lineNum, String depth, String transition) {
-        this.name = name;
-        this.line = line;
-        this.lineNum = lineNum;
         this.depth = depth;
         this.transition = transition;
     }
 
     @Override
     public String toString() {
-        return name + "\n"
-                + "\tлиния: " + line + "\n"
-                + "\tдата: " + lineNum + "\n"
-                + "\tглубина: " + depth;
+        if (transition.equals("")) {
+            return "\t" + name;
+        } else {
+            return "\t" + name + " (" + transition + ")";
+        }
     }
 }

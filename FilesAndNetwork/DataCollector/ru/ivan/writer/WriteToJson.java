@@ -14,7 +14,7 @@ public class WriteToJson {
     public void makesAnEntryInJSON(String path){
         Stations stations = new Stations();
         MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-        Map<String, List<String>> map = new LinkedHashMap<>();
+        Map<String, List<Stations>> map = new LinkedHashMap<>();
         map = moscowMetroStations.getLocalHtmlStations(path);
         for (String s : map.keySet()) {
             System.out.println("\n" + s + ":");
