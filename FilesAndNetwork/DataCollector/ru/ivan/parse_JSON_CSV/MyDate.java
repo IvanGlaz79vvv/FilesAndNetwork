@@ -3,11 +3,11 @@ package ru.ivan.parse_JSON_CSV;
 import lombok.Data;
 
 @Data
-public class DatesCSV {
+public class MyDate {
     String name;
     String date;
 
-    public DatesCSV(String name, String date) {
+    public MyDate(String name, String date) {
         this.name = name;
         this.date = date;
     }

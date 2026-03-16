@@ -10,16 +10,27 @@ import ru.ivan.MySearchFiles;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@Data
 public class MyParceJSON<T> {
-    MySearchFiles mySearchFiles = new MySearchFiles();
-    List<String> dataAddress = new ArrayList<>();
 
+    public static Map<String, List<Depths>> jsonOutput(String data) {
+        MySearchFiles mySearchFiles = new MySearchFiles();
+        List<String> dataAddress = mySearchFiles.searchMyFiles(data);
+        List<Depths> listOfStations = new LinkedList<>();
+        Map<String, List<Depths>> mapOfDepths = new LinkedHashMap<>();
+        List<String> pathOfJson = dataAddress.stream()
+                .filter(s -> s.endsWith(".json"))
+                .collect(Collectors.toList());
+        for (String path : pathOfJson) {
+            listOfStations = parceMyJson(path);
+            mapOfDepths.put(path, listOfStations);
+        }
+        return mapOfDepths;
+    }
 
-    public List<Depths> parceMyJson(String path) {
+    public static List<Depths> parceMyJson(String path) {
         List<Depths> list = new ArrayList<>();
         try {
             JSONParser parser = new JSONParser();
@@ -37,9 +48,9 @@ public class MyParceJSON<T> {
             e.printStackTrace();
         }
         return list;
-    }
+    }static
 
-    public String getDataFromJSON(String path) {
+    private String getDataFromJSON(String path) {
         StringBuilder builder = new StringBuilder();
         try {
             List<String> lines = Files.readAllLines(Paths.get(path));
@@ -49,5 +60,4 @@ public class MyParceJSON<T> {
         }
         return builder.toString();
     }
-
 }

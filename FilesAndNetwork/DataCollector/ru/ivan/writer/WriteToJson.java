@@ -1,9 +1,8 @@
 package ru.ivan.writer;
 
 
-import org.jsoup.select.Elements;
 import ru.ivan.Stations;
-import ru.ivan.parseSites.MoscowMetroStations;
+import ru.ivan.MoscowMetroStations;
 
 import java.util.LinkedHashMap;
 import java.util.List;
