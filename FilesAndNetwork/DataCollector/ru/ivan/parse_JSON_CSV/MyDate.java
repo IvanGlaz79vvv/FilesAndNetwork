@@ -14,6 +14,6 @@ public class MyDate {
 
     @Override
     public String toString() {
-        return name + ", " + date;
+        return name + ", " + date ;
     }
 }

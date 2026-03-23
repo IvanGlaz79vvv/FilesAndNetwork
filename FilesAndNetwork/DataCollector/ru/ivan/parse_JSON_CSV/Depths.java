@@ -9,12 +9,24 @@ import java.util.stream.Collectors;
 @Data
 public class Depths {
     String station_name;
-    String depth;
-//    int depth;
+    double depth;
+    public String errorMessage;
 
-    public Depths(String station_name, String depth) {
+    public Depths(String station_name, double depth, String errorMessage) {
         this.station_name = station_name;
         this.depth = depth;
+        this.errorMessage = errorMessage;
+    }
+
+    public Depths(String station_name, double depth) {
+        this.station_name = station_name;
+        this.depth = depth;
+        this.errorMessage = null; // По умолчанию ошибки нет
+    }
+
+    public Depths(String station_name, String errorMessage) {
+        this.station_name = station_name;
+        this.errorMessage = errorMessage;
     }
 
     public Depths() {
@@ -22,7 +34,12 @@ public class Depths {
 
     @Override
     public String toString() {
-        return station_name + ", " + depth + ";";
+        if (errorMessage != null) {
+            // Если есть ошибка, выводим её вместо глубины
+            return station_name + ", " + errorMessage;
+        } else {
+            return station_name + ", " + depth;
+        }
     }
 
 }
