@@ -1,5 +1,6 @@
 package ru.ivan;
 
+import lombok.Data;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,9 +12,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class MoscowMetroStations {
+    private List<Stations> hasConnectionList = new LinkedList<>();
+    private List<Stations> recurringList = new LinkedList<>();
+    private Map<String, List<Stations>> mapOfConnectionAndRecurring = new LinkedHashMap<String, List<Stations>>();
 
-    public Map<String, List<Stations>> getWebHtmlStations(String path) {
+    public static Map<String, List<Stations>> getWebHtmlStations(String path) {
         WebHtmlParce webHtmlParce = new WebHtmlParce();
         Document doc = webHtmlParce.parceWebHtml(path);
         Map<String, List<Stations>> mapOfLinesAndStations = new LinkedHashMap<>();
@@ -50,8 +55,7 @@ public class MoscowMetroStations {
         return mapOfLinesAndStations;
     }
 
-
-    public Map<String, List<Stations>> getLocalHtmlStations(String path) {
+    public static Map<String, List<Stations>> getLocalHtmlStations(String path) {
         LocalHtmlParce localHtmlParce = new LocalHtmlParce();
         Document doc = localHtmlParce.parceLocalHtml(path);
         Map<String, List<Stations>> mapOfLinesAndStations = new LinkedHashMap<>();
@@ -86,4 +90,5 @@ public class MoscowMetroStations {
         }
         return mapOfLinesAndStations;
     }
+
 }
