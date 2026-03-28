@@ -1,6 +1,12 @@
 package ru.ivan;
 
 import lombok.Data;
+import ru.ivan.parse_JSON_CSV.Depths;
+import ru.ivan.parse_JSON_CSV.MyDate;
+import ru.ivan.parse_JSON_CSV.MyParceJSON;
+import ru.ivan.parse_JSON_CSV.MyParseCSV;
+
+import java.util.*;
 
 @Data
 public class Stations {
@@ -58,6 +64,61 @@ public class Stations {
         this.transition = transition;
         this.hasConnection = hasConnection;
     }
+
+
+    public static Map<String, List<Stations>> getObjectStation(String path, String data) {
+        String name = null;
+        String line = null;
+        String date = null;
+        double depth = 0;
+        String transition = null;
+        boolean connection = false;
+        Map<String, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
+
+        Map<String, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
+        Map<String, List<MyDate>> mapOfDates = MyParseCSV.csvOutput(data);
+        Map<String, List<Depths>> mapOfDepths = MyParceJSON.jsonOutput(data);
+
+        List<Depths> allDepths = new ArrayList<>();
+        Map<String, Double> mapOfAllDepths = new HashMap<>();
+        List<MyDate> allDates = new ArrayList<>();
+        Map<String, String> mapOfAllDates = new HashMap<>();
+
+        for (List<Depths> depthsList : mapOfDepths.values()) {
+            allDepths.addAll(depthsList);
+        }
+        for (Depths depths : allDepths) {
+            mapOfAllDepths.put(depths.getStation_name(), depths.getDepth());
+        }
+
+        for (List<MyDate> myDateList : mapOfDates.values()) {
+            allDates.addAll(myDateList);
+        }
+        for (MyDate myDates : allDates) {
+            mapOfAllDates.put(myDates.getName(), myDates.getDate());
+        }
+
+        for (String lines : mapOfStations.keySet()) {
+            List<Stations> listOfAllStations = new LinkedList<>();
+            line = lines.replaceAll("^[\\d\\w+]+\\.\\s+", "");
+            for (Stations station : mapOfStations.get(lines)) {
+                name = station.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
+                transition = station.getTransition();
+                connection = station.hasConnection;
+                if (mapOfAllDepths.get(name) != null) {
+                    depth = mapOfAllDepths.get(name);
+                }
+                date = mapOfAllDates.get(name);
+                Stations stationForList = new Stations(name, line, date, depth, transition, connection);
+                listOfAllStations.add(stationForList);
+                mapOfAllStations.put(lines, listOfAllStations);
+            }
+        }
+        return mapOfAllStations;
+    }
+
+
+
 
     @Override
     public String toString() {
