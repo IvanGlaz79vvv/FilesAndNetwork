@@ -1,5 +1,6 @@
 package ru.ivan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.ivan.parse_JSON_CSV.Depths;
 import ru.ivan.parse_JSON_CSV.MyDate;
@@ -14,6 +15,7 @@ public class Stations {
     private String line;
     private String date;
     private Double depth;
+    @JsonIgnore
     private String transition;
     boolean hasConnection;
 
@@ -116,9 +118,6 @@ public class Stations {
         }
         return mapOfAllStations;
     }
-
-
-
 
     @Override
     public String toString() {
