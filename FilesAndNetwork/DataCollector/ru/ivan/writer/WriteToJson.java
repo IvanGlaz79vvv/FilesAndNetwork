@@ -4,6 +4,7 @@ package ru.ivan.writer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import ru.ivan.LineName;
 import ru.ivan.Stations;
 import ru.ivan.MoscowMetroStations;
 
@@ -19,7 +20,7 @@ public class WriteToJson {
 
     public static void makeJSON(String path, String data) {
         // 1. Получаем исходную карту (Линия -> Список станций)
-        Map<String, List<Stations>> mapOfAllStations = Stations.getObjectStation(path, data);
+        Map<LineName, List<Stations>> mapOfAllStations = Stations.getObjectStation(path, data);
 
         // 2. Собираем все станции из всех линий в один общий список
         List<Stations> allStationsFlatList = new ArrayList<>();

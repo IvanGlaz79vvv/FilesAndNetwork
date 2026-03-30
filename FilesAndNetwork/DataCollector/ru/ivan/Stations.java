@@ -68,16 +68,17 @@ public class Stations {
     }
 
 
-    public static Map<String, List<Stations>> getObjectStation(String path, String data) {
+    public static Map<LineName, List<Stations>> getObjectStation(String path, String data) {
         String name = null;
         String line = null;
         String date = null;
         double depth = 0;
         String transition = null;
         boolean connection = false;
-        Map<String, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
+        Map<LineName, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
 
-        Map<String, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
+
+        Map<LineName, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
         Map<String, List<MyDate>> mapOfDates = MyParseCSV.csvOutput(data);
         Map<String, List<Depths>> mapOfDepths = MyParceJSON.jsonOutput(data);
 
@@ -100,9 +101,9 @@ public class Stations {
             mapOfAllDates.put(myDates.getName(), myDates.getDate());
         }
 
-        for (String lines : mapOfStations.keySet()) {
+        for (LineName lines : mapOfStations.keySet()) {
             List<Stations> listOfAllStations = new LinkedList<>();
-            line = lines.replaceAll("^[\\d\\w+]+\\.\\s+", "");
+            line = lines.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
             for (Stations station : mapOfStations.get(lines)) {
                 name = station.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
                 transition = station.getTransition();
@@ -126,14 +127,14 @@ public class Stations {
         if (line != null) sb.append(line + "; ");
         if (date != null){
             sb.append(date + "; ");
-        }else{
+        }/*else{
             sb.append("date unknown; ");
-        }
+        }*/
         if (depth != null) {
             sb.append(depth + "; ");
-        } else {
+        }/* else {
             sb.append("no depth data; ");
-        }
+        }*/
 //        if (transition != null) sb.append(transition/* + "; "*/);
 //        if (hasConnection) sb.append("; hasConnection = " + hasConnection);
 //        sb.append("; hasConnection = " + hasConnection);

@@ -46,12 +46,12 @@ public class MyParceJSON<T> {
                 }
 
                 // 2. Получаем глубину
+                Depths depthsEntry = null; // Создаем переменную для объекта
                 Object depthObj = jsonObject.get("depth");
-                Depths depthsEntry; // Создаем переменную для объекта
 
                 if (depthObj == null) {
                     // Создаем объект с текстом ошибки
-                    depthsEntry = new Depths(name, "Поле глубины отсутствует");
+                    depthsEntry = new Depths(name, null);
                 } else if (depthObj instanceof Number) {
                     double depthValue = ((Number) depthObj).doubleValue();
                     depthsEntry = new Depths(name, depthValue); // Обычный объект
@@ -59,17 +59,17 @@ public class MyParceJSON<T> {
                     String depthStr = ((String) depthObj).trim();
 
                     if (depthStr.isEmpty() || "?".equals(depthStr)) {
-                        depthsEntry = new Depths(name, "Глубина не указана или неизвестна");
+                        depthsEntry =  new Depths(name, null);
                     } else {
                         try {
                             double depthValue = Double.parseDouble(depthStr.replace(',', '.'));
                             depthsEntry = new Depths(name, depthValue);
                         } catch (NumberFormatException e) {
-                            depthsEntry = new Depths(name, "Значение '" + depthStr + "' не является числом.");
+                            depthsEntry =  new Depths(name, null);
                         }
                     }
                 } else {
-                    depthsEntry = new Depths(name, "Неизвестный тип данных глубины");
+                    depthsEntry =  new Depths(name, null);
                 }
 
                 // 3. Добавляем объект в список (он уже содержит либо данные, либо ошибку)

@@ -18,22 +18,19 @@ public class Main {
 //        PrintLinesOfWEB("https://skillbox-java.github.io/");
 //        PrintLinesWithStationsSortedLocal("html/Метро Москвы.html");
 //        PrintLinesWithStationsSortedWEB("https://skillbox-java.github.io/");
-
-//        MoscowMetroStations moscowMetroStations = new MoscowMetroStations();
-//        recurringStations(moscowMetroStations.getLocalHtmlStations("html/Метро Москвы.html"));
-
-//        printGetObjectStation("html/Метро Москвы.html", "data");
-
+//
+        printGetObjectStation("html/Метро Москвы.html", "data");
+//
         WriteToJson.makeJSON("html/Метро Москвы.html", "data");
     }
 
 
     public static void printGetObjectStation(String path, String data) {
-        Map<String, List<Stations>> mapOfAllStations = Stations.getObjectStation(path, data);
+        Map<LineName, List<Stations>> mapOfAllStations = Stations.getObjectStation(path, data);
 
-        for (String line : mapOfAllStations.keySet()) {
+        for (LineName line : mapOfAllStations.keySet()) {
             System.out.println("=".repeat(120));
-            System.out.println("\n" + line.toUpperCase());
+            System.out.println("\n" + line.getName().toUpperCase());
             System.out.println("—".repeat(168));
             System.out.printf("%-20s| %-20s| %10s| %6s| %-15s| %-5b%n", "Станция", "Линия", "Дата", "Глубина", "Переход", "Наличие пересадки");
             System.out.println("-".repeat(168));
@@ -48,7 +45,6 @@ public class Main {
             });
         }
     }
-
 
     public static void PrintCsv(String path) {
         System.out.println("\n\n" + "*********************************\n" + "Вывод CSV");
@@ -72,14 +68,14 @@ public class Main {
         System.out.println("\n\n" + "*********************************\n" + "Вывод линий с локального файла сайта");
         System.out.println("\nLOCAL Lines:");
         MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
-        moscowMetroLines.getlocalHtmlLines(path).forEach((key, value) -> System.out.println(key + ". " + value));
+        moscowMetroLines.getlocalHtmlLines(path).forEach(line -> System.out.println(line));
     }
 
     public static void PrintLinesOfWEB(String path) {
         System.out.println("\n\n" + "*********************************\n" + "Вывод линий с сайта онлайн");
         System.out.println("\nWEB Lines:");
         MoscowMetroLines moscowMetroLines = new MoscowMetroLines();
-        moscowMetroLines.getWebHtmlLines(path).forEach((key, value) -> System.out.println(key + ". " + value));
+        moscowMetroLines.getWebHtmlLines(path).forEach(line -> System.out.println(line));
     }
 
     public static void PrintLinesWithStationsSortedLocal(String path) {
