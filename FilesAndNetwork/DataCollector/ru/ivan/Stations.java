@@ -37,9 +37,8 @@ public class Stations {
         Map<LineName, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
         Map<LineName, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
 
-        Map<String, Double> mapOfAllDepths = ParceJSON.parseMyJson(data);
-
-        Map<String, String> mapOfAllDates = ParseCSV.parseMyCSV(data);
+        Map<String, Double> mapOfAllDepths = ParceJSON.parseJson(data);
+        Map<String, String> mapOfAllDates = ParseCSV.parseCSV(data);
 
         for (LineName lines : mapOfStations.keySet()) {
             List<Stations> listOfAllStations = new LinkedList<>();

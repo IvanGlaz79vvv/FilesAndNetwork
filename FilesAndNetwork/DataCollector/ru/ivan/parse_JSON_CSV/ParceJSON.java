@@ -4,17 +4,19 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import ru.ivan.SearchFiles;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ParceJSON {
 
-    public static Map<String, Double> parseMyJson(String path) {
+    public static Map<String, Double> parseJson(String path) {
         Map<String, Double> map = new LinkedHashMap<>();
         JSONParser parser = new JSONParser();
 

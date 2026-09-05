@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ParseCSV {
 
-    public static Map<String, String> parseMyCSV(String path) {
+    public static Map<String, String> parseCSV(String path) {
         Map<String, String> mapOfAllDates = new LinkedHashMap<>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(path));
