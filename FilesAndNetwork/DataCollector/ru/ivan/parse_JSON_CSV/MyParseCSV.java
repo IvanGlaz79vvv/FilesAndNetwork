@@ -8,7 +8,7 @@ import java.util.*;
 
 public class MyParseCSV {
 
-    public static Map<String, List<MyDate>> csvOutput(String data) {
+    public static Map<String, List<MyDate>> csvOutputToMap(String data) {
         MySearchFiles mySearchFiles = new MySearchFiles();
         List<String> dataAddress = mySearchFiles.searchMyFiles(data);
         List<MyDate> listOfMyDate = new LinkedList<>();

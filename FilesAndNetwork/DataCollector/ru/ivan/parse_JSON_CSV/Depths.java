@@ -17,11 +17,6 @@ public class Depths {
 
     @Override
     public String toString() {
-//        if (errorMessage != null) {
-//            // Если есть ошибка, выводим её вместо глубины
-//            return station_name + ", " + errorMessage;
-//        } else {
             return station_name + ", " + depth;
-//        }
     }
 }

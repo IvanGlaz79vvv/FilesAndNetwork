@@ -1,6 +1,5 @@
 package ru.ivan;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.ivan.parse_JSON_CSV.Depths;
 import ru.ivan.parse_JSON_CSV.MyDate;
@@ -11,13 +10,12 @@ import java.util.*;
 
 @Data
 public class Stations {
-    private String name;
-    private String line;
-    private String date;
-    private Double depth;
-    @JsonIgnore
-    private String transition;
-    boolean hasConnection;
+    String name = null;
+    String line = null;
+    String date = null;
+    Double depth = null;
+    String transition = null;
+    boolean hasConnection = false;
 
     public Stations() {
     }
@@ -28,37 +26,7 @@ public class Stations {
         this.hasConnection = hasConnection;
     }
 
-    public Stations(String name, String line, String date, boolean hasConnection) {
-        this.name = name;
-        this.line = line;
-        this.date = date;
-        this.hasConnection = hasConnection;
-    }
-
-    public Stations(String name, String line, String date, double depth) {
-        this.name = name;
-        this.line = line;
-        this.date = date;
-        this.depth = depth;
-    }
-
-    public Stations(String name, String line, String date, double depth, boolean hasConnection) {
-        this.name = name;
-        this.line = line;
-        this.date = date;
-        this.depth = depth;
-        this.hasConnection = hasConnection;
-    }
-
-    public Stations(String name, String line, String date, double depth, String transition) {
-        this.name = name;
-        this.line = line;
-        this.date = date;
-        this.depth = depth;
-        this.transition = transition;
-    }
-
-    public Stations(String name, String line, String date, double depth, String transition, boolean hasConnection) {
+    public Stations(String name, String line, String date, Double depth, String transition, boolean hasConnection) {
         this.name = name;
         this.line = line;
         this.date = date;
@@ -66,20 +34,11 @@ public class Stations {
         this.transition = transition;
         this.hasConnection = hasConnection;
     }
-
 
     public static Map<LineName, List<Stations>> getObjectStation(String path, String data) {
-        String name = null;
-        String line = null;
-        String date = null;
-        double depth = 0;
-        String transition = null;
-        boolean connection = false;
         Map<LineName, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
-
-
         Map<LineName, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
-        Map<String, List<MyDate>> mapOfDates = MyParseCSV.csvOutput(data);
+        Map<String, List<MyDate>> mapOfDates = MyParseCSV.csvOutputToMap(data);
         Map<String, List<Depths>> mapOfDepths = MyParceJSON.jsonOutput(data);
 
         List<Depths> allDepths = new ArrayList<>();
@@ -87,32 +46,28 @@ public class Stations {
         List<MyDate> allDates = new ArrayList<>();
         Map<String, String> mapOfAllDates = new HashMap<>();
 
-        for (List<Depths> depthsList : mapOfDepths.values()) {
-            allDepths.addAll(depthsList);
-        }
-        for (Depths depths : allDepths) {
-            mapOfAllDepths.put(depths.getStation_name(), depths.getDepth());
-        }
+        for (List<Depths> depthsList : mapOfDepths.values()) allDepths.addAll(depthsList);
+        for (Depths depths : allDepths) mapOfAllDepths.put(depths.getStation_name(), depths.getDepth());
 
-        for (List<MyDate> myDateList : mapOfDates.values()) {
-            allDates.addAll(myDateList);
-        }
-        for (MyDate myDates : allDates) {
-            mapOfAllDates.put(myDates.getName(), myDates.getDate());
-        }
+        for (List<MyDate> myDateList : mapOfDates.values()) allDates.addAll(myDateList);
+        for (MyDate myDates : allDates) mapOfAllDates.put(myDates.getName(), myDates.getDate());
 
         for (LineName lines : mapOfStations.keySet()) {
             List<Stations> listOfAllStations = new LinkedList<>();
-            line = lines.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
+            String line = lines.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
+            Double depth = null;
+            String date = null;
+            Boolean hasConnection = false;
+
             for (Stations station : mapOfStations.get(lines)) {
-                name = station.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
-                transition = station.getTransition();
-                connection = station.hasConnection;
+                String name = station.getName().replaceAll("^[\\d\\w+]+\\.\\s+", "");
+                String transition = station.getTransition();
                 if (mapOfAllDepths.get(name) != null) {
                     depth = mapOfAllDepths.get(name);
                 }
                 date = mapOfAllDates.get(name);
-                Stations stationForList = new Stations(name, line, date, depth, transition, connection);
+                hasConnection = station.hasConnection;
+                Stations stationForList = new Stations(name, line, date, depth, transition, hasConnection);
                 listOfAllStations.add(stationForList);
                 mapOfAllStations.put(lines, listOfAllStations);
             }
@@ -123,22 +78,55 @@ public class Stations {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (name != null) sb.append(name + "; ");
-        if (line != null) sb.append(line + "; ");
-        if (date != null){
-            sb.append(date + "; ");
-        }/*else{
-            sb.append("date unknown; ");
-        }*/
+        sb.append("\t\t{\n");
+
+        boolean first = true;
+
+        if (name != null) {
+            if (!first) sb.append(",\n");
+            sb.append("\t\t\t\"name\": \"").append(name).append("\"");
+            first = false;
+        }
+        if (line != null) {
+            if (!first) sb.append(",\n");
+            sb.append("\t\t\t\"line\": \"").append(line).append("\"");
+            first = false;
+        }
+        if (date != null) {
+            if (!first) sb.append(",\n");
+            sb.append("\t\t\t\"date\": \"").append(date).append("\"");
+            first = false;
+        }
         if (depth != null) {
-            sb.append(depth + "; ");
-        }/* else {
-            sb.append("no depth data; ");
-        }*/
-//        if (transition != null) sb.append(transition/* + "; "*/);
-//        if (hasConnection) sb.append("; hasConnection = " + hasConnection);
-//        sb.append("; hasConnection = " + hasConnection);
-        sb.append(hasConnection);
+            if (!first) sb.append(",\n");
+            sb.append("\t\t\t\"depth\": ").append(depth);
+            first = false;
+        }
+        if (transition != null) {
+            if (!first) sb.append(",\n");
+            sb.append("\t\t\t\"transition\": \"").append(transition).append("\"");
+            first = false;
+        }
+        // hasConnection выводим всегда
+        if (!first) sb.append(",\n");
+        sb.append("\t\t\t\"hasConnection\": ").append(hasConnection);
+
+        sb.append("\n\t\t}");
         return sb.toString();
     }
+
+
+    /*@Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t{\n");
+        if (name != null) sb.append("\t\t\t\"name\": ").append("\"").append(name).append("\",\n");
+        if (line != null) sb.append("\t\t\t\"line\": ").append("\"").append(line).append("\",\n");
+        if (date != null) sb.append("\t\t\t\"date\": ").append("\"").append(date).append("\",\n");
+        if (depth != null) sb.append("\t\t\t\"depth\": ").append(depth).append(",\n");
+        if (transition != null) sb.append("\t\t\t\"transition\": ").append("\"").append(transition).append("\",\n");
+        if (hasConnection) sb.append("\t\t\t\"hasConnection\" : ").append(hasConnection).append("\n");
+        sb.append("\t\t}");
+        return sb.toString();
+    }*/
 }
