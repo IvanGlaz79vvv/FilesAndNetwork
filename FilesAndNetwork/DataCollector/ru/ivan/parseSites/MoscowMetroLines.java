@@ -37,8 +37,8 @@ public class MoscowMetroLines {
             Elements lines = doc.select(".js-metro-line");
             if (!lines.isEmpty()) {
                 for (Element l : lines) {
-                    String id = l.text();
-                    String name = l.attr("data-line");
+                    String name = l.text();
+                    String id = l.attr("data-line");
                     LineName lineName = new LineName(id, name);
                     listLines.add(lineName);
                 }

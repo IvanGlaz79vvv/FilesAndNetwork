@@ -1,10 +1,8 @@
 package ru.ivan;
 
 import lombok.Data;
-import ru.ivan.parse_JSON_CSV.Depths;
-import ru.ivan.parse_JSON_CSV.MyDate;
-import ru.ivan.parse_JSON_CSV.MyParceJSON;
-import ru.ivan.parse_JSON_CSV.MyParseCSV;
+import ru.ivan.parse_JSON_CSV.ParceJSON;
+import ru.ivan.parse_JSON_CSV.ParseCSV;
 
 import java.util.*;
 
@@ -38,19 +36,10 @@ public class Stations {
     public static Map<LineName, List<Stations>> getObjectStation(String path, String data) {
         Map<LineName, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
         Map<LineName, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
-        Map<String, List<MyDate>> mapOfDates = MyParseCSV.csvOutputToMap(data);
-        Map<String, List<Depths>> mapOfDepths = MyParceJSON.jsonOutput(data);
 
-        List<Depths> allDepths = new ArrayList<>();
-        Map<String, Double> mapOfAllDepths = new HashMap<>();
-        List<MyDate> allDates = new ArrayList<>();
-        Map<String, String> mapOfAllDates = new HashMap<>();
+        Map<String, Double> mapOfAllDepths = ParceJSON.parseMyJson(data);
 
-        for (List<Depths> depthsList : mapOfDepths.values()) allDepths.addAll(depthsList);
-        for (Depths depths : allDepths) mapOfAllDepths.put(depths.getStation_name(), depths.getDepth());
-
-        for (List<MyDate> myDateList : mapOfDates.values()) allDates.addAll(myDateList);
-        for (MyDate myDates : allDates) mapOfAllDates.put(myDates.getName(), myDates.getDate());
+        Map<String, String> mapOfAllDates = ParseCSV.parseMyCSV(data);
 
         for (LineName lines : mapOfStations.keySet()) {
             List<Stations> listOfAllStations = new LinkedList<>();
@@ -114,19 +103,4 @@ public class Stations {
         sb.append("\n\t\t}");
         return sb.toString();
     }
-
-
-    /*@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\t\t{\n");
-        if (name != null) sb.append("\t\t\t\"name\": ").append("\"").append(name).append("\",\n");
-        if (line != null) sb.append("\t\t\t\"line\": ").append("\"").append(line).append("\",\n");
-        if (date != null) sb.append("\t\t\t\"date\": ").append("\"").append(date).append("\",\n");
-        if (depth != null) sb.append("\t\t\t\"depth\": ").append(depth).append(",\n");
-        if (transition != null) sb.append("\t\t\t\"transition\": ").append("\"").append(transition).append("\",\n");
-        if (hasConnection) sb.append("\t\t\t\"hasConnection\" : ").append(hasConnection).append("\n");
-        sb.append("\t\t}");
-        return sb.toString();
-    }*/
 }

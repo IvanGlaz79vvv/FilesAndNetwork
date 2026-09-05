@@ -1,0 +1,27 @@
+package ru.ivan.parse_JSON_CSV;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ParseCSV {
+
+    public static Map<String, String> parseMyCSV(String path) {
+        Map<String, String> mapOfAllDates = new LinkedHashMap<>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(path));
+            for (int i = 0; i < lines.size(); i++) {
+                String[] fragments = lines.get(i).split(",");
+                String name = fragments[0];
+                String date = fragments[1];
+                mapOfAllDates.put(name, date);
+            }
+        } catch (Exception e) {
+            System.out.println("Список пустой или неверный индекс.");
+            e.printStackTrace();
+        }
+        return mapOfAllDates;
+    }
+}
