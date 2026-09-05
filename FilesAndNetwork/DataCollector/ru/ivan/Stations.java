@@ -1,9 +1,6 @@
 package ru.ivan;
 
 import lombok.Data;
-import ru.ivan.parse_JSON_CSV.ParceJSON;
-import ru.ivan.parse_JSON_CSV.ParseCSV;
-
 import java.util.*;
 
 @Data
@@ -33,12 +30,9 @@ public class Stations {
         this.hasConnection = hasConnection;
     }
 
-    public static Map<LineName, List<Stations>> getObjectStation(String path, String data) {
+    public static Map<LineName, List<Stations>> getObjectStation(Map<String, Double> mapOfAllDepths, Map<String, String> mapOfAllDates, String path) {
         Map<LineName, List<Stations>> mapOfAllStations = new LinkedHashMap<>();
         Map<LineName, List<Stations>> mapOfStations = MoscowMetroStations.getLocalHtmlStations(path);
-
-        Map<String, Double> mapOfAllDepths = ParceJSON.parseJson(data);
-        Map<String, String> mapOfAllDates = ParseCSV.parseCSV(data);
 
         for (LineName lines : mapOfStations.keySet()) {
             List<Stations> listOfAllStations = new LinkedList<>();
