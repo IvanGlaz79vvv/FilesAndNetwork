@@ -6,13 +6,12 @@ import ru.ivan.DTO.Stations;
 import ru.ivan.Utils.DataCollector;
 import ru.ivan.writer.WriteToJson;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String dataPath = "data";
         String htmlPath = "html/Метро Москвы.html";
 
