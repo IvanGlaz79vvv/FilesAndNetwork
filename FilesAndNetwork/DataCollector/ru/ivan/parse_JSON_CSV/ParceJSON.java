@@ -7,7 +7,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class ParceJSON {
     static private String getDataFromJSON(String path) {
         StringBuilder builder = new StringBuilder();
         try {
-            List<String> lines = Files.readAllLines(Paths.get(path));
+            List<String> lines = Files.readAllLines(Path.of(path));
             lines.forEach(builder::append);
         } catch (IOException e) {
             throw new RuntimeException(e);
