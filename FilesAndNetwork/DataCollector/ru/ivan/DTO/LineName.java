@@ -1,4 +1,4 @@
-package ru.ivan;
+package ru.ivan.DTO;
 
 import lombok.Data;
 

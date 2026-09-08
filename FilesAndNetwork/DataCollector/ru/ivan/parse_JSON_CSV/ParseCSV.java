@@ -14,6 +14,7 @@ public class ParseCSV {
             List<String> lines = Files.readAllLines(Paths.get(path));
             for (int i = 0; i < lines.size(); i++) {
                 String[] fragments = lines.get(i).split(",");
+                if (fragments.length < 2) continue; //TODO логировать ошибку
                 String name = fragments[0];
                 String date = fragments[1];
                 mapOfAllDates.put(name, date);

@@ -3,12 +3,10 @@ package ru.ivan.parseSites;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.ivan.LineName;
+import ru.ivan.DTO.LineName;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class MoscowMetroLines {
     public /*Map<String, String>*/ List<LineName> getWebHtmlLines(String path) {

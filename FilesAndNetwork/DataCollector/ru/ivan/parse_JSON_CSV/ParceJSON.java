@@ -4,20 +4,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import ru.ivan.SearchFiles;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ParceJSON {
 
-    public static Map<String, Double> parseJson(String path) {
-        Map<String, Double> map = new LinkedHashMap<>();
+    public static Map<String, Integer> parseJson(String path) {
+        Map<String, Integer> map = new LinkedHashMap<>();
         JSONParser parser = new JSONParser();
 
         try {
@@ -32,15 +30,15 @@ public class ParceJSON {
                 }
 
                 Object depthObj = jsonObject.get("depth");
-                Double depthValue = null;
+                Integer depthValue = null;
 
                 if (depthObj instanceof Number) {
-                    depthValue = ((Number) depthObj).doubleValue();
+                    depthValue = ((Number) depthObj).intValue();
                 } else if (depthObj instanceof String) {
                     String depthStr = ((String) depthObj).trim();
                     if (!depthStr.isEmpty() && !"?".equals(depthStr)) {
                         try {
-                            depthValue = Double.parseDouble(depthStr.replace(',', '.'));
+                            depthValue = (int) Double.parseDouble(depthStr.replace(',', '.'));
                         } catch (NumberFormatException ignored) {
                             // оставляем null
                         }

@@ -3,27 +3,18 @@ package ru.ivan.parseSites;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 public class LocalHtmlParce {
-    Document doc = null;
-    public Document parceLocalHtml(String path) {
-        String htmlFile = parseFile(path);
-        doc = Jsoup.parse(htmlFile);
-        assert doc != null;
-        return doc;
-    }
 
-    public String parseFile(String path) {
-        StringBuilder builder = new StringBuilder();
+    public Document parceLocalHtml(String path) {
+        Document doc = null;
         try {
-            List<String> lines = Files.readAllLines(Paths.get(path));
-            lines.forEach(line -> builder.append(line + "\n"));
-        } catch (Exception e) {
+            doc = Jsoup.parse(new File(path));
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return builder.toString();
+        return doc;
     }
 }

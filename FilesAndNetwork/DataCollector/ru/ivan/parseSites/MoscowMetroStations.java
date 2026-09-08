@@ -1,11 +1,11 @@
-package ru.ivan;
+package ru.ivan.parseSites;
 
 import lombok.Data;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.ivan.parseSites.LocalHtmlParce;
-import ru.ivan.parseSites.WebHtmlParce;
+import ru.ivan.DTO.LineName;
+import ru.ivan.DTO.Stations;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,9 +14,6 @@ import java.util.Map;
 
 @Data
 public class MoscowMetroStations {
-    private List<Stations> hasConnectionList = new LinkedList<>();
-    private List<Stations> recurringList = new LinkedList<>();
-    private Map<String, List<Stations>> mapOfConnectionAndRecurring = new LinkedHashMap<String, List<Stations>>();
 
     public static Map<String, List<Stations>> getWebHtmlStations(String path) {
         WebHtmlParce webHtmlParce = new WebHtmlParce();

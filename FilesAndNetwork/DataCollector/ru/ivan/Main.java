@@ -1,32 +1,41 @@
 package ru.ivan;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.ivan.DTO.LineName;
+import ru.ivan.DTO.Stations;
+import ru.ivan.Utils.DataCollector;
+import ru.ivan.writer.WriteToJson;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-
 @Slf4j
 public class Main {
-    public static void main(String[] args) {
-        String path = "html/Метро Москвы.html";
+    public static void main(String[] args) throws IOException {
+        String dataPath = "data";
+        String htmlPath = "html/Метро Москвы.html";
 
-        /*SearchFiles searchFiles = new SearchFiles();
-        Map<String, List<String>> mapOfFiles = new HashMap<>();
-        mapOfFiles = searchFiles.searchFiles("data");
-        for (String entry : mapOfFiles.keySet()) {
-            System.out.println(entry);
-            for(String fileName : mapOfFiles.get(entry)){
-                System.out.println(fileName);
-            }
-        }*/
+        // собираем данные из всех JSON и CSV в папке
+        Map<String, Integer> mapOfAllDepths = DataCollector.collectDepths(dataPath, "json");
+        Map<String, String> mapOfAllDates = DataCollector.collectDates(dataPath, "csv");
 
-        DataCollector dataCollector = new DataCollector();
-        List<String> pathsOfJson = dataCollector.getListOfJson("data");
-        pathsOfJson.forEach(System.out::println);
+        // склеиваем всё в итоговую структуру
+        Map<LineName, List<Stations>> mapOfAllStations = Stations.getObjectStation(
+                mapOfAllDepths,
+                mapOfAllDates,
+                htmlPath
+        );
 
-        List<String> pathsFromCsv = dataCollector.getListOfCsv("data");
-        pathsFromCsv.forEach(System.out::println);
+        String stationsWithDetails = "stationsWithDetails";
+        String linesWithStations = "linesWithStations";
+        WriteToJson.makeJsonFromMap(mapOfAllStations, stationsWithDetails);
+        WriteToJson.makeMapJson(mapOfAllStations,linesWithStations);
+//        log.info("Всего линий: {}", mapOfAllStations.size());
+//        for(Map.Entry<LineName, List<Stations>> entry : mapOfAllStations.entrySet()) {
+//            for(Stations stations : entry.getValue()) {
+//                System.out.println(stations);
+//            }
+//        }
     }
 }
