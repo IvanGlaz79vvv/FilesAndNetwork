@@ -3,6 +3,7 @@ package ru.ivan.writer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.extern.slf4j.Slf4j;
 import ru.ivan.DTO.LineName;
 import ru.ivan.DTO.Stations;
 
@@ -13,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class WriteToJson {
 
     public static void makeJsonFromMap(Map<LineName, List<Stations>> mapOfAllStations, String nameOfJson) {
@@ -23,6 +25,8 @@ public class WriteToJson {
         for (List<Stations> stationsOnLine : mapOfAllStations.values()) {
             allStationsFlatList.addAll(stationsOnLine);
         }
+
+        log.debug("Подготовка к записи файла: {}, количество станций: {}", nameOfJson, allStationsFlatList.size());
 
         // --- ЭТО ВАЖНО: делаем обёртку ---
         Map<String, List<Stations>> wrapper = new LinkedHashMap<>();
@@ -38,9 +42,9 @@ public class WriteToJson {
         try {
             String name = nameOfJson + ".json";
             mapper.writeValue(new File(name), wrapper);
-            System.out.println("Файл " + nameOfJson + " успешно записан!");
+            log.info("Файл " + nameOfJson + " успешно записан!");
         } catch (IOException e) {
-            System.err.println("Ошибка записи в файл: " + e.getMessage());
+            log.error("Ошибка записи в файл: {}", nameOfJson, e);
             e.printStackTrace();
         }
     }
@@ -56,6 +60,11 @@ public class WriteToJson {
             linesWithStationNames.put(line.getId(), names);
         }
 
+        int totalStations = linesWithStationNames.values().stream()
+                .mapToInt(List::size)
+                .sum();
+        log.debug("Подготовка к записи файла: {}, количество записей (линия -> список имён): {}, суммарное число станций: {}", nameOfJson, linesWithStationNames.size(), totalStations);
+
         Map<String, Map<String, List<String>>> wrapper = new LinkedHashMap<>();
         wrapper.put("stations", linesWithStationNames);
 
@@ -65,10 +74,11 @@ public class WriteToJson {
         try {
             String name = nameOfJson + ".json";
             mapper.writeValue(new File(name), wrapper);
-            System.out.println("Файл " + nameOfJson + " успешно записан!");
+            log.info("Файл " + nameOfJson + " успешно записан!");
         } catch (IOException e) {
-            System.err.println("Ошибка записи в файл: " + e.getMessage());
+            log.error("Ошибка записи в файл: {}", nameOfJson, e);
             e.printStackTrace();
+
         }
     }
 }
