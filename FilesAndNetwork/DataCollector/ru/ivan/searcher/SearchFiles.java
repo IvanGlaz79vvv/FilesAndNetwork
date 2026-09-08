@@ -20,7 +20,7 @@ public class SearchFiles {
     }
 
     private void recursiveListFiles(File dir, String extension, List<String> listOfFiles) {
-
+        String extensionWithDot = "." + extension;
         File[] files = dir.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -29,8 +29,8 @@ public class SearchFiles {
                     recursiveListFiles(file, extension, listOfFiles);
                 } else {
                     fileName = file.getName();
-                    if (fileName.endsWith("." + extension)) {
-                        listOfFiles.add(file.toString());
+                    if (fileName.endsWith(extensionWithDot)) {
+                        listOfFiles.add(file.getPath());
                     }
                 }
             }

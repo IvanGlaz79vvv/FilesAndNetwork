@@ -30,11 +30,6 @@ public class Main {
         String linesWithStations = "linesWithStations";
         WriteToJson.makeJsonFromMap(mapOfAllStations, stationsWithDetails);
         WriteToJson.makeMapJson(mapOfAllStations,linesWithStations);
-//        log.info("Всего линий: {}", mapOfAllStations.size());
-//        for(Map.Entry<LineName, List<Stations>> entry : mapOfAllStations.entrySet()) {
-//            for(Stations stations : entry.getValue()) {
-//                System.out.println(stations);
-//            }
-//        }
+        log.info("Всего линий: {}", mapOfAllStations.size());
     }
 }
